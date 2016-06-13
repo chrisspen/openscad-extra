@@ -16,6 +16,15 @@ module make_2d_corner_fillet(width=1, depth=1, height=1, $fn=50){
     }
 }
 
+module make_3d_corner_fillet(width=1, depth=1, height=1, $fn=50){
+    difference(){
+        cube([width, depth, height], center=true);
+        translate([width/2, depth/2, height/2])
+        scale([width,depth,height])
+        sphere(d=2, $fn=$fn);
+    }
+}
+
 make_2d_corner_fillet();
 
 translate([2,0,0])
@@ -23,3 +32,12 @@ make_2d_corner_fillet(width=2);
 
 translate([-2,0,0])
 make_2d_corner_fillet(height=2);
+
+translate([0,2,0])
+make_3d_corner_fillet();
+
+translate([3,2,0])
+make_3d_corner_fillet(width=2);
+
+translate([-3,2,0])
+make_3d_corner_fillet(height=2);
