@@ -1,3 +1,4 @@
+$fn = 100;
 
 module make_hex_nut(w, h, d=0){
     // d = inner diameter

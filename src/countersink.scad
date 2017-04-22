@@ -34,6 +34,7 @@ module make_countersink(d1=0, d2=0, h=0, outer=10, inner=0, $fn=25){
 
 make_countersink(inner=10);
 
+if(0)
 color("blue")
 translate([0,2,0])
 cylinder(d=2.5, h=20, center=true, $fn=100);
