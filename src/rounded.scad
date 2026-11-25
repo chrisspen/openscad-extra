@@ -76,6 +76,14 @@ module rounded_pie(length, height, r, angle=30, fn=100){
     
 }
 
+module rounded_cylinder(d=1, h=1, $fn=50, center=false){
+    for(i=[0:1])
+    translate([0,0,i*h-d/2+(center?-h/2:0)+(i==0?+d:0)])
+    sphere(r=d/2, $fn=$fn);
+    cylinder(d=d, h=h-d, center=center, $fn=$fn);
+}
+
+
 rounded_cube([1,2,1], r=.25, $fn=100, center=false);
 
 translate([2, 0, 0])
@@ -83,3 +91,7 @@ rounded_cube_2d([1,2,1], r=.25, $fn=100, center=false);
 
 translate([4, 0, 0])
 rounded_pie(length=3, height=1, r=.1, angle=65, fn=100);
+
+translate([-1,0,0])
+rounded_cylinder(d=0.5, center=true);
+
