@@ -6,7 +6,7 @@
 /*
 
 	Usage:
-	use <Hexagones.scad>;
+	use <hexagon.scad>;
 	Pour créer des jeux, des têtes de vis...
 
 */

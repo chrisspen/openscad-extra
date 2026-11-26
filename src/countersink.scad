@@ -14,7 +14,7 @@ module make_countersink(d1=0, d2=0, h=0, outer=10, inner=0, $fn=25){
     d1 = d1 ? d1 : 2.5;
     d2 = d2 ? d2 : 5;
     h = h ? h : default_taper_height;
-    inner = (inner ? inner : 10) - default_taper_height;
+    inner = (inner ? inner : 10) - h;
     
     translate([0, 0, -h/2])
     union(){

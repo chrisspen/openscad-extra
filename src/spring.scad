@@ -74,22 +74,32 @@ module make_flat_spring(d=5, thickness=1, height=1, width=10, length=50, $fn=50)
 
 module make_contained_flat_spring(d=5, thickness=1, height=1, width=10, length=50, rim=5, $fn=50){
     
-    make_flat_spring(d=d, width=width, length=length, thickness=thickness);
-        
+    make_flat_spring(d=d, width=width, length=length, thickness=thickness, height=height, $fn=$fn);
+
     color("blue")
-    make_spring_container(width=width, length=length, thickness=rim);
+    make_spring_container(width=width, length=length, thickness=rim, height=height);
 }
 
 module make_spiral_spring(r=1, thickness=2, height=1, loops=3){
+    /*
+    At angle t (degrees), the arm's outer edge is r + t/90 from the center, so
+    the spiral moves out 4 per turn, and the arm is thickness wide.
+
+    The arm starts at t=90, or later if its inner edge would still be closer
+    than 0.5 to the center there. Starting earlier would cross the center and
+    make the outline self-intersect, which CGAL can't render.
+    */
+    assert(thickness < 4, "make_spiral_spring: thickness must be less than 4, the spiral's pitch");
+    t0 = max(90, ceil(90*(thickness - r + 0.5)));
     linear_extrude(height=height) polygon(points=concat(
-        [for(t = [90:360*loops]) 
+        [for(t = [t0:360*loops])
             [(r-thickness+t/90)*sin(t),(r-thickness+t/90)*cos(t)]],
-        [for(t = [360*loops:-1:90]) 
+        [for(t = [360*loops:-1:t0])
             [(r+t/90)*sin(t),(r+t/90)*cos(t)]]
             ));
 }
 
-module make_contained_spiral_spring(r=1, thickness=2, height=5, loop=3){
+module make_contained_spiral_spring(r=1, thickness=2, height=5, loops=3){
     box_w = 30;
     
     // outer rim

@@ -76,11 +76,18 @@ module rounded_pie(length, height, r, angle=30, fn=100){
     
 }
 
-module rounded_cylinder(d=1, h=1, $fn=50, center=false){
-    for(i=[0:1])
-    translate([0,0,i*h-d/2+(center?-h/2:0)+(i==0?+d:0)])
-    sphere(r=d/2, $fn=$fn);
-    cylinder(d=d, h=h-d, center=center, $fn=$fn);
+module capsule(d=1, h=1, $fn=50, center=false){
+    // A cylinder with hemispherical ends, d wide and h long overall, along Z.
+    // With center=false it sits on z=0.
+    // (This used to be called rounded_cylinder, which clashed with the
+    // rounded-edge cylinder in torus.scad.)
+    translate([0, 0, center ? -h/2 : 0]){
+        for(z=[d/2, h-d/2])
+        translate([0, 0, z])
+        sphere(r=d/2, $fn=$fn);
+        translate([0, 0, d/2])
+        cylinder(d=d, h=h-d, $fn=$fn);
+    }
 }
 
 
@@ -93,5 +100,5 @@ translate([4, 0, 0])
 rounded_pie(length=3, height=1, r=.1, angle=65, fn=100);
 
 translate([-1,0,0])
-rounded_cylinder(d=0.5, center=true);
+capsule(d=0.5, center=true);
 
